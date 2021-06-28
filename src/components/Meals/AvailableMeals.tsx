@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import Card from '../UI/Card';
 import styles from './AvailableMeals.module.css';
 
 const MEALS = [
@@ -32,11 +33,13 @@ const MEALS = [
 const AvailableMeals: FC = () => {
   return (
     <section className={styles.meals}>
-      <ul>
-        {MEALS.map(meal => (
-          <li key={meal.id}>{meal.name}</li>
-        ))}
-      </ul>
+      <Card>
+        <ul>
+          {MEALS.map(meal => (
+            <li key={meal.id}>{meal.name}</li>
+          ))}
+        </ul>
+      </Card>
     </section>
   );
 };
