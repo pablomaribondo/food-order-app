@@ -1,14 +1,16 @@
 import { FC } from 'react';
 
+import MealItemForm from './MealItemForm';
 import styles from './MealItem.module.css';
 
 interface MealItemProps {
+  id: string;
   name: string;
   description: string;
   price: number;
 }
 
-const MealItem: FC<MealItemProps> = ({ name, description, price }) => {
+const MealItem: FC<MealItemProps> = ({ name, description, price, id }) => {
   const formattedPrice = `$${price.toFixed(2)}`;
   return (
     <li className={styles.meal}>
@@ -17,7 +19,9 @@ const MealItem: FC<MealItemProps> = ({ name, description, price }) => {
         <div className={styles.description}>{description}</div>
         <div className={styles.price}>{formattedPrice}</div>
       </div>
-      <div />
+      <div>
+        <MealItemForm id={id} />
+      </div>
     </li>
   );
 };
