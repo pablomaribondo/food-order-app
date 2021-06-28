@@ -3,11 +3,13 @@ import { FC } from 'react';
 import CartIcon from '../Cart/CartIcon';
 import styles from './HeaderCartButton.module.css';
 
-interface HeaderCartButtonProps {}
+interface HeaderCartButtonProps {
+  onClick: () => void;
+}
 
-const HeaderCartButton: FC<HeaderCartButtonProps> = () => {
+const HeaderCartButton: FC<HeaderCartButtonProps> = ({ onClick }) => {
   return (
-    <button className={styles.button} type="button">
+    <button className={styles.button} type="button" onClick={onClick}>
       <span className={styles.icon}>
         <CartIcon />
       </span>
