@@ -1,12 +1,10 @@
 import { FC } from 'react';
+
+import Header from './components/Layout/Header';
 import './App.css';
 
 const App: FC = () => {
-  return (
-    <div>
-      <p>Food Order App</p>
-    </div>
-  );
+  return <Header />;
 };
 
 export default App;
