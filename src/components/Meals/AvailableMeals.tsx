@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import Card from '../UI/Card';
+import MealItem from './MealItem/MealItem';
 import styles from './AvailableMeals.module.css';
 
 const MEALS = [
@@ -36,7 +37,12 @@ const AvailableMeals: FC = () => {
       <Card>
         <ul>
           {MEALS.map(meal => (
-            <li key={meal.id}>{meal.name}</li>
+            <MealItem
+              key={meal.id}
+              name={meal.name}
+              description={meal.description}
+              price={meal.price}
+            />
           ))}
         </ul>
       </Card>
