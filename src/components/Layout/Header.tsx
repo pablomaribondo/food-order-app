@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import mealsImage from '../../assets/meals.jpg';
+import HeaderCartButton from './HeaderCartButton';
 import styles from './Header.module.css';
 
 interface HeaderProps {}
@@ -10,7 +11,7 @@ const Header: FC<HeaderProps> = () => {
     <>
       <header className={styles.header}>
         <h1>ReactMeals</h1>
-        <button type="button">Cart</button>
+        <HeaderCartButton />
       </header>
       <div className={styles['main-image']}>
         <img src={mealsImage} alt="A table full of delicious food!" />
