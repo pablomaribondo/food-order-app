@@ -1,24 +1,46 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
+import CartContext from '../../store/cart.context';
 import Modal from '../UI/Modal/Modal';
+import CartItem from './CartItem';
 import styles from './Cart.module.css';
+import { CartItem as CartItemType } from '../../store/types';
 
 interface CartProps {
   onClose: () => void;
 }
 
-const cartItems = [{ id: 'c1', name: 'Sushi', amount: 2, price: 12.99 }];
 const Cart: FC<CartProps> = ({ onClose }) => {
+  const cartContext = useContext(CartContext);
+
+  const totalAmount = `$${cartContext.totalAmount.toFixed(2)}`;
+  const hasItems = cartContext.items.length > 0;
+
+  const cartItemAddHandler = (item: CartItemType) => {
+    cartContext.addItem({ ...item, amount: 1 });
+  };
+
+  const cartItemRemoveHandler = (id: string) => {
+    cartContext.removeItem(id);
+  };
+
   return (
     <Modal onClose={onClose}>
       <ul className={styles['cart-items']}>
-        {cartItems.map(item => (
-          <li key={item.id}>{item.name}</li>
+        {cartContext.items.map(item => (
+          <CartItem
+            key={item.id}
+            name={item.name}
+            amount={item.amount}
+            price={item.price}
+            onAdd={() => cartItemAddHandler(item)}
+            onRemove={() => cartItemRemoveHandler(item.id)}
+          />
         ))}
       </ul>
       <div className={styles.total}>
         <span>Total Amount</span>
-        <span>32.62</span>
+        <span>{totalAmount}</span>
       </div>
       <div className={styles.actions}>
         <button
@@ -28,9 +50,11 @@ const Cart: FC<CartProps> = ({ onClose }) => {
         >
           Close
         </button>
-        <button type="button" className={styles.button}>
-          Order
-        </button>
+        {hasItems && (
+          <button type="button" className={styles.button}>
+            Order
+          </button>
+        )}
       </div>
     </Modal>
   );
