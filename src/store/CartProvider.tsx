@@ -11,7 +11,8 @@ const DEFAULT_CART_STATE: CartState = {
   items: [],
   totalAmount: 0,
   addItem: () => {},
-  removeItem: () => {}
+  removeItem: () => {},
+  clearCart: () => {}
 };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -69,6 +70,10 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     };
   }
 
+  if (action.type === 'CLEAR_CART') {
+    return DEFAULT_CART_STATE;
+  }
+
   return DEFAULT_CART_STATE;
 };
 
@@ -92,12 +97,19 @@ const CartProvider: FC<CartProviderProps> = ({ children }) => {
     });
   };
 
+  const clearCartHandler = () => {
+    dispatchCartAction({
+      type: 'CLEAR_CART'
+    });
+  };
+
   const cartContext = useMemo(
     () => ({
       items: cartState.items,
       totalAmount: cartState.totalAmount,
       addItem: addItemToCartHandler,
-      removeItem: removeItemFromCartHandler
+      removeItem: removeItemFromCartHandler,
+      clearCart: clearCartHandler
     }),
     [cartState.items, cartState.totalAmount]
   );
