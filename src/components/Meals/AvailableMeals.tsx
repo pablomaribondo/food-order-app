@@ -1,42 +1,38 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import styles from './AvailableMeals.module.css';
-
-const MEALS = [
-  {
-    id: 'm1',
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99
-  },
-  {
-    id: 'm2',
-    name: 'Schnitzel',
-    description: 'A german specialty!',
-    price: 16.5
-  },
-  {
-    id: 'm3',
-    name: 'Barbecue Burger',
-    description: 'American, raw, meaty',
-    price: 12.99
-  },
-  {
-    id: 'm4',
-    name: 'Green Bowl',
-    description: 'Healthy...and green...',
-    price: 18.99
-  }
-];
+import { Meal } from '../../store/types';
 
 const AvailableMeals: FC = () => {
+  const [meals, setMeals] = useState<Meal[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(
+        `${process.env.REACT_APP_DB_URL}/meals.json`
+      );
+      const responseData: { [key: string]: Meal } = await response.json();
+
+      const loadedMeals: Meal[] = Object.entries(responseData).map(
+        ([mealId, mealContent]) => ({
+          id: mealId,
+          name: mealContent.name,
+          description: mealContent.description,
+          price: mealContent.price
+        })
+      );
+
+      setMeals(loadedMeals);
+    })();
+  }, []);
+
   return (
     <section className={styles.meals}>
       <Card>
         <ul>
-          {MEALS.map(meal => (
+          {meals.map(meal => (
             <MealItem
               key={meal.id}
               id={meal.id}
