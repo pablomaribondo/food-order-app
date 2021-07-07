@@ -7,6 +7,7 @@ import { Meal } from '../../store/types';
 
 const AvailableMeals: FC = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -25,8 +26,17 @@ const AvailableMeals: FC = () => {
       );
 
       setMeals(loadedMeals);
+      setIsLoading(false);
     })();
   }, []);
+
+  if (isLoading) {
+    return (
+      <section className={styles.mealsLoading}>
+        <p>Loading...</p>
+      </section>
+    );
+  }
 
   return (
     <section className={styles.meals}>
